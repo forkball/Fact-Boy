@@ -1,0 +1,9 @@
+#subject {
+    border: none;
+    border-bottom: grey solid 2px;
+    border-radius: 0px;
+}
+
+#question {
+    text-align: center;
+}

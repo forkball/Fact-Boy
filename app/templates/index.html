@@ -2,10 +2,18 @@
 
 <head>
     <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='skeleton.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='normalize.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
 </head>
 
 <body>
-<p>Hey Fact Boy, tell me something about <input type="text"></p>
+    <form method="get">
+        <p id="question">
+            {{greeting}}, what can you tell me about <input id="subject" name="subject" aria-label="fact subject" type="text">?
+        </p>
+    </form>
+    <script src="{{url_for('static', filename='main.js')}}">
 </body>
 
 </html>
