@@ -1,0 +1,15 @@
+<html>
+
+<head>
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='skeleton.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='normalize.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+</head>
+
+<body>
+    <div id="content">{% block content %}{% endblock %}</div>
+    <script src="{{url_for('static', filename='main.js')}}">
+</body>
+
+</html>

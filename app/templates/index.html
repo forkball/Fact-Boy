@@ -1,19 +1,11 @@
-<html>
-
-<head>
-    <title>{{ title }}</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='skeleton.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='normalize.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
-</head>
-
-<body>
-    <form method="get">
-        <p id="question">
-            {{greeting}}, what can you tell me about <input id="subject" name="subject" aria-label="fact subject" type="text">?
-        </p>
-    </form>
-    <script src="{{url_for('static', filename='main.js')}}">
-</body>
-
-</html>
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container">
+        <h1> Fact Boy </h1>
+        <form action="/fact" method="get">
+            <p id="question">
+                {{greeting}}, what can you tell me about <input id="subject" name="subject" aria-label="fact subject" type="text">?
+            </p>
+        </form>
+    </div>
+{% endblock %}

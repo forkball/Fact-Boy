@@ -1,9 +1,8 @@
-from flask import render_template
+from flask import render_template, request
 from datetime import datetime
 from app import app
 
 @app.route('/')
-@app.route('/index')
 def index():
     currentTime = datetime.now().hour
     greetings = ["Evenin' Fact Boy","Afternoon Fact Boy","Mornin' Fact Boy"]
@@ -17,3 +16,8 @@ def index():
         greeting = greetings[2]
 
     return render_template('index.html', title='Fact Boy',greeting = greeting)
+
+@app.route("/fact")
+def fact():
+    subject = request.args.get('subject')
+    return render_template('fact.html', title='Fact Boy',subject = subject)
