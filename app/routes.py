@@ -27,4 +27,9 @@ def fact():
     webpage = requests.get(wiki + subject)
     soup = BeautifulSoup(webpage.content)
     body = soup.find("div", {"class": "mw-parser-output"})
+    for x in body.findAll("p"):
+        if (x.get("class") == None):
+            body = x
+            break
+
     return render_template('fact.html', title='Fact Boy',subject = body)
