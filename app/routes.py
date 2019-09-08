@@ -1,6 +1,10 @@
 from flask import render_template, request
+from bs4 import BeautifulSoup
 from datetime import datetime
 from app import app
+import requests
+
+wiki = "https://en.wikipedia.org/wiki/"
 
 @app.route('/')
 def index():
@@ -20,4 +24,7 @@ def index():
 @app.route("/fact")
 def fact():
     subject = request.args.get('subject')
-    return render_template('fact.html', title='Fact Boy',subject = subject)
+    webpage = requests.get(wiki + subject)
+    soup = BeautifulSoup(webpage.content)
+    body = soup.find("div", {"class": "mw-parser-output"})
+    return render_template('fact.html', title='Fact Boy',subject = body)
