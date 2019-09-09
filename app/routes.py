@@ -1,8 +1,9 @@
 from flask import render_template, request
-from bs4 import BeautifulSoup
 from datetime import datetime
 from app import app
-import requests
+
+import wikipedia
+import random
 
 wiki = "https://en.wikipedia.org/wiki/"
 
@@ -24,12 +25,13 @@ def index():
 @app.route("/fact")
 def fact():
     subject = request.args.get('subject')
-    webpage = requests.get(wiki + subject)
-    soup = BeautifulSoup(webpage.content)
-    body = soup.find("div", {"class": "mw-parser-output"})
-    for x in body.findAll("p"):
-        if (x.get("class") == None):
-            body = x
-            break
+    return render_template('fact.html', title='Fact Boy',content = getFact(subject))
 
-    return render_template('fact.html', title='Fact Boy',subject = body)
+def getFact(subject):
+    fact = None
+    try:
+        fact = wikipedia.summary(subject, sentences=1)
+    except wikipedia.exceptions.DisambiguationError as e:
+        return getFact(e.options[random.randint(0,len(e.options))])
+    else:
+        return fact
