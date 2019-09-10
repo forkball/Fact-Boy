@@ -4,41 +4,51 @@ from app import app
 
 import wikipedia
 import random
+import requests
 
+#index route, landing page
 @app.route('/')
 def index():
     greeting = getGreeting()
     return render_template('index.html', title='Fact Boy',greeting = greeting)
 
+#fact route, handles fact generation
 @app.route("/fact")
 def fact():
     greeting = getGreeting()
+    #retrieve subject arg
     subject = request.args.get('subject')
+    #if there is no subject, redirect
     if not (subject):
         return redirect(url_for('index'))
 
     fact = getFact(subject)
-    return render_template('index.html', title='Fact Boy',greeting = greeting, subject = subject, content = {"fact": fact["fact"], "src": fact["src"]})
+    #render template, pass greeting, subject, and fact dict
+    return render_template('index.html', title='Fact Boy',greeting = greeting, subject = subject, content = fact)
 
+#loop until exception free
 def getFact(subject):
     fact = None
     try:
         fact = {
+            "subject": wikipedia.page(subject).title,
             "fact": wikipedia.summary(subject,sentences=1),
             "src": getSrc(subject)
         }
     except wikipedia.exceptions.DisambiguationError as e:
         return getFact(e.options[random.randint(0,len(e.options) - 1)])
-    except wikipedia.exceptions.HTTPTimeoutError as e:
+    except (wikipedia.exceptions.HTTPTimeoutError, requests.exceptions.ConnectionError) as e:
         return "Can't connect to Wikipedia!"
     except wikipedia.exceptions.PageError as e:
         return "I don't know what '" + subject + "' is!"
     else:
         return fact
-        
+
+#gets source of subject       
 def getSrc(subject):
     return wikipedia.page(subject).url
 
+#gets greeting depending on day
 def getGreeting():
     currentTime = datetime.now().hour
     greetings = ["Evenin' Fact Boy","Afternoon Fact Boy","Mornin' Fact Boy"]
