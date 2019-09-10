@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import render_template, request, redirect, url_for
 from datetime import datetime
 from app import app
 
@@ -14,13 +14,19 @@ def index():
 def fact():
     greeting = getGreeting()
     subject = request.args.get('subject')
+    if not (subject):
+        return redirect(url_for('index'))
+
     fact = getFact(subject)
-    return render_template('index.html', title='Fact Boy',greeting = greeting, subject = subject, content = fact)
+    return render_template('index.html', title='Fact Boy',greeting = greeting, subject = subject, content = {"fact": fact["fact"], "src": fact["src"]})
 
 def getFact(subject):
     fact = None
     try:
-        fact = wikipedia.summary(subject, sentences=1)
+        fact = {
+            "fact": wikipedia.summary(subject,sentences=1),
+            "src": getSrc(subject)
+        }
     except wikipedia.exceptions.DisambiguationError as e:
         return getFact(e.options[random.randint(0,len(e.options) - 1)])
     except wikipedia.exceptions.HTTPTimeoutError as e:
@@ -29,6 +35,9 @@ def getFact(subject):
         return "I don't know what '" + subject + "' is!"
     else:
         return fact
+        
+def getSrc(subject):
+    return wikipedia.page(subject).url
 
 def getGreeting():
     currentTime = datetime.now().hour
