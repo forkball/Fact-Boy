@@ -25,6 +25,8 @@ def getFact(subject):
         return getFact(e.options[random.randint(0,len(e.options) - 1)])
     except wikipedia.exceptions.HTTPTimeoutError as e:
         return "Can't connect to Wikipedia!"
+    except wikipedia.exceptions.PageError as e:
+        return "I don't know what '" + subject + "' is!"
     else:
         return fact
 
