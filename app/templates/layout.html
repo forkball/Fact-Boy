@@ -8,8 +8,11 @@
 </head>
 
 <body>
-    <div id="content container">{% block content %}{% endblock %}</div>
-    <script src="{{url_for('static', filename='main.js')}}">
+    <div id="content container">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <script src="{{url_for('static', filename='main.js')}}"></script>
 </body>
 
 </html>

@@ -7,19 +7,24 @@ import random
 
 @app.route('/')
 def index():
-    return render_template('index.html', title='Fact Boy',greeting = getGreeting())
+    greeting = getGreeting()
+    return render_template('index.html', title='Fact Boy',greeting = greeting)
 
 @app.route("/fact")
 def fact():
+    greeting = getGreeting()
     subject = request.args.get('subject')
-    return render_template('index.html', title='Fact Boy',greeting = getGreeting(), subject = subject, content = getFact(subject))
+    fact = getFact(subject)
+    return render_template('index.html', title='Fact Boy',greeting = greeting, subject = subject, content = fact)
 
 def getFact(subject):
     fact = None
     try:
         fact = wikipedia.summary(subject, sentences=1)
     except wikipedia.exceptions.DisambiguationError as e:
-        return getFact(e.options[random.randint(0,len(e.options))])
+        return getFact(e.options[random.randint(0,len(e.options) - 1)])
+    except wikipedia.exceptions.HTTPTimeoutError as e:
+        return "Can't connect to Wikipedia!"
     else:
         return fact
 
@@ -30,7 +35,7 @@ def getGreeting():
 
     if (currentTime >= 20):
         greeting = greetings[0]
-    if (currentTime >= 12):
+    elif (currentTime >= 12):
         greeting = greetings[1]
     else:
         greeting = greetings[2]

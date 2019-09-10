@@ -1,3 +1,10 @@
+body {
+    min-width: 300px;
+}
+h1 {
+    margin-top: 35px;
+    margin-bottom: 0px;
+}
 #subject {
     border: none;
     border-bottom: grey solid 2px;
