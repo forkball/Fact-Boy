@@ -4,13 +4,13 @@
         <h1> Fact Boy </h1>
         <form action="/fact" method="get">
             <p id="question">
-                {{greeting}}, what can you tell me about <input required id="subject" value="{{subject}}" name="subject" aria-label="fact subject" type="text">?
+                {{greeting}}! What can you tell me about <input required id="subject" value="{{subject}}" name="subject" aria-label="fact subject" type="text">?
             </p>
 
             {% if content != undefined %}
                 <div id="fact-source" >
                     <p>{{content["fact"]}}</p>
-                    <a target="_blank" href="{{content['src']}}" >Learn more about "{{content['subject']}}" here!</a>
+                    <a target="_blank" href="{{content['src']}}" >Learn more about "{{content['title']}}" here!</a>
                 </div>
             {%endif%}
 

@@ -31,7 +31,7 @@ def getFact(subject):
     fact = None
     try:
         fact = {
-            "subject": wikipedia.page(subject).title,
+            "title": wikipedia.page(subject).title,
             "fact": wikipedia.summary(subject,sentences=1),
             "src": getSrc(subject)
         }
