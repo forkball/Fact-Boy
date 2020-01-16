@@ -1,4 +1,4 @@
-## Fact boy
+# Fact boy
 
 ## Table of Contents
 - [About the Repo](#about-the-repo)
