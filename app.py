@@ -1,30 +1,11 @@
-from flask import render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime
-from app import app
-
 import wikipedia
 import random
 import requests
 
-#index route, landing page
-@app.route('/')
-def index():
-    greeting = getGreeting()
-    return render_template('index.html', title='Fact Boy',greeting = greeting)
-
-#fact route, handles fact generation
-@app.route("/fact")
-def fact():
-    greeting = getGreeting()
-    #retrieve subject arg
-    subject = request.args.get('subject')
-    #if there is no subject, redirect
-    if not (subject):
-        return redirect(url_for('index'))
-
-    fact = getFact(subject)
-    #render template, pass greeting, subject, and fact dict
-    return render_template('index.html', title='Fact Boy',greeting = greeting, subject = subject, content = fact)
+app = Flask(__name__)
+app.config.from_pyfile('config.py')
 
 #loop until exception free
 def getFact(subject):
@@ -62,3 +43,28 @@ def getGreeting():
         greeting = greetings[2]
     
     return greeting
+
+
+#index route, landing page
+@app.route('/')
+def index():
+    greeting = getGreeting()
+    return render_template('index.html', title='Fact Boy', greeting = greeting)
+
+#fact route, handles fact generation
+@app.route("/fact")
+def fact():
+    greeting = getGreeting()
+    #retrieve subject arg
+    subject = request.args.get('subject')
+    
+    #if there is no subject, redirect
+    if not (subject):
+        return redirect(url_for('index'))
+
+    fact = getFact(subject)
+    #render template, pass greeting, subject, and fact dict
+    return render_template('index.html', title='Fact Boy',greeting = greeting, subject = subject, content = fact)
+
+if __name__ == "__main__":
+    app.run(debug=True)
