@@ -58,5 +58,5 @@ This is the general project structure
 
 ## Contributors
 - Eros Di Pede
-  + [github ](https://github.com/ForkBombGIT)
-  + [website](https://erosdipede.me/)
+  + [Github](https://github.com/ForkBombGIT)
+  + [Website](https://erosdipede.me/)
